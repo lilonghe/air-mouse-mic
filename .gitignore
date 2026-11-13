@@ -2,6 +2,8 @@
 build/
 atvv
 atvv.lock
+/amm
+/amm.lock
 *.log
 *.wav
 hotkeytest/

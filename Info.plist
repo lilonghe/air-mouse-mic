@@ -5,15 +5,15 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>zh_CN</string>
     <key>CFBundleExecutable</key>
-    <string>AtvvMenu</string>
+    <string>amm</string>
     <key>CFBundleIdentifier</key>
-    <string>com.llh.atvvmenu</string>
+    <string>com.llh.amm</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>AtvvMenu</string>
+    <string>air-mouse-mic</string>
     <key>CFBundleDisplayName</key>
-    <string>AtvvMenu</string>
+    <string>air-mouse-mic</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>

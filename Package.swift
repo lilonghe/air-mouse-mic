@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "AtvvMenu",
+    name: "air-mouse-mic",
     platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
-            name: "AtvvMenu",
-            path: "Sources/AtvvMenu"
+            name: "amm",
+            path: "Sources/amm"
         )
     ]
 )

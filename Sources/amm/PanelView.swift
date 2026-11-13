@@ -80,7 +80,7 @@ struct PanelView: View {
                 HStack {
                     Button("退出") { NSApp.terminate(nil) }
                         .buttonStyle(.plain)
-                        .help("退出 AtvvMenu")
+                        .help("退出 air-mouse-mic")
                     Spacer()
                     Button("设置") { showSettings = true }
                         .buttonStyle(.plain)

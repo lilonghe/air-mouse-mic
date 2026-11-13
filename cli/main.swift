@@ -47,7 +47,7 @@ var signalSources: [DispatchSourceSignal] = []
 
 /// 用文件锁保证同一时间只有一个实例；进程退出（含 Ctrl+C）时内核自动释放
 func acquireInstanceLock() -> Bool {
-    let path = "/tmp/atvv/atvv.lock"
+    let path = "/tmp/amm.lock"
     let fd = open(path, O_CREAT | O_EXLOCK | O_NONBLOCK, 0o600)
     guard fd >= 0 else { return false }
     instanceLockFD = fd
@@ -795,7 +795,7 @@ final class AtvvCapture: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         let stamp = ISO8601DateFormatter().string(from: Date())
             .replacingOccurrences(of: ":", with: "")
             .replacingOccurrences(of: "-", with: "")
-        let path = "/tmp/atvv/capture-\(stamp).wav"
+        let path = "/tmp/amm-capture-\(stamp).wav"
         writeWav(path, segment)
         log("已写入 \(path)")
     }
@@ -804,7 +804,7 @@ final class AtvvCapture: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 // MARK: - 启动
 
 guard acquireInstanceLock() else {
-    log("!! 已有实例在运行（/tmp/atvv/atvv.lock 被占用），本次退出")
+    log("!! 已有实例在运行（/tmp/amm.lock 被占用），本次退出")
     exit(1)
 }
 

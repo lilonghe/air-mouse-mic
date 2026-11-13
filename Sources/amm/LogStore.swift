@@ -17,9 +17,9 @@ final class LogStore: ObservableObject {
     private init() {
         let manager = FileManager.default
         let directory = manager.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("Logs/AtvvMenu", isDirectory: true)
+            .appendingPathComponent("Logs/amm", isDirectory: true)
         try? manager.createDirectory(at: directory, withIntermediateDirectories: true)
-        let url = directory.appendingPathComponent("atvv.log")
+        let url = directory.appendingPathComponent("amm.log")
         if !manager.fileExists(atPath: url.path) {
             manager.createFile(atPath: url.path, contents: nil)
         }

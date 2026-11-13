@@ -176,7 +176,7 @@ struct SettingsView: View {
     private func exportLog() {
         NSApp.activate(ignoringOtherApps: true)
         let panel = NSSavePanel()
-        panel.nameFieldStringValue = "atvv-log.txt"
+        panel.nameFieldStringValue = "amm-log.txt"
         panel.allowedContentTypes = [.plainText]
         panel.begin { response in
             guard response == .OK, let url = panel.url else { return }

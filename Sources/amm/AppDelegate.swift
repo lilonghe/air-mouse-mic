@@ -13,7 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var connectionFrame = 0
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        log("AtvvMenu 启动")
+        log("air-mouse-mic (amm) 启动")
         requestAccessibilityIfNeeded()
         setupPopover()
         setupStatusItem()

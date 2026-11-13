@@ -5,10 +5,10 @@ cd "$(dirname "$0")"
 
 swift build -c release
 
-APP="build/AtvvMenu.app"
+APP="build/air-mouse-mic.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS"
-cp ".build/release/AtvvMenu" "$APP/Contents/MacOS/AtvvMenu"
+cp ".build/release/amm" "$APP/Contents/MacOS/amm"
 cp "Info.plist" "$APP/Contents/Info.plist"
 
 codesign --force --sign - "$APP"

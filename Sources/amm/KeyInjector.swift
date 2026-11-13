@@ -23,7 +23,7 @@ final class KeyInjector {
     func hold(_ hotkey: Hotkey) {
         guard held == nil else { return }
         guard AXIsProcessTrusted() else {
-            log("注入失败：AtvvMenu 没有辅助功能权限，请在系统设置中授权后再次按键，无需重启 App")
+            log("注入失败：air-mouse-mic 没有辅助功能权限，请在系统设置中授权后再次按键，无需重启 App")
             return
         }
         guard CGEventSource(stateID: .hidSystemState) != nil else {
