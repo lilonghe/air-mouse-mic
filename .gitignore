@@ -7,3 +7,4 @@ atvv.lock
 *.log
 *.wav
 hotkeytest/
+/cli/
