@@ -1,3 +1,4 @@
+import ApplicationServices
 import CoreGraphics
 import Foundation
 
@@ -21,6 +22,10 @@ final class KeyInjector {
     /// 按住快捷键，重复调用只算一次
     func hold(_ hotkey: Hotkey) {
         guard held == nil else { return }
+        guard AXIsProcessTrusted() else {
+            log("注入失败：AtvvMenu 没有辅助功能权限，请在系统设置中授权后再次按键，无需重启 App")
+            return
+        }
         guard CGEventSource(stateID: .hidSystemState) != nil else {
             log("注入失败：无法创建事件源")
             return
@@ -81,7 +86,6 @@ final class KeyInjector {
         if flags.contains(.maskShift) { flags.insert(CGEventFlags(rawValue: 0x2)) }
         if flags.contains(.maskAlternate) { flags.insert(CGEventFlags(rawValue: 0x20)) }
         if flags.contains(.maskCommand) { flags.insert(CGEventFlags(rawValue: 0x8)) }
-        flags.insert(.maskNonCoalesced)
         return flags
     }
 }

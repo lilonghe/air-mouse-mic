@@ -75,16 +75,16 @@ final class RemoteController: ObservableObject {
     private func handlePress() {
         switch mode {
         case .hold:
-            speaking = true
             injector.hold(hotkey)
+            speaking = injector.isHolding
         case .toggle:
-            latched.toggle()
-            speaking = latched
             if latched {
-                injector.hold(hotkey)
-            } else {
                 injector.release()
+            } else {
+                injector.hold(hotkey)
             }
+            latched = injector.isHolding
+            speaking = latched
         }
         startHoldWatchdog()
     }
