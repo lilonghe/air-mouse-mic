@@ -44,6 +44,15 @@ struct PanelView: View {
                         .foregroundStyle(secondaryText)
                 }
                 Spacer()
+                Toggle("启用遥控器", isOn: Binding(
+                    get: { controller.enabled },
+                    set: { controller.setEnabled($0) }
+                ))
+                .toggleStyle(.switch)
+                .labelsHidden()
+                .controlSize(.mini)
+                .tint(.blue)
+                .help(controller.enabled ? "停用遥控器" : "启用遥控器")
             }
 
             HStack(spacing: 12) {
@@ -60,22 +69,6 @@ struct PanelView: View {
             .padding(.bottom, 16)
 
             VStack(spacing: 0) {
-                separator.frame(height: 1)
-                HStack {
-                    Text("启用遥控器")
-                        .font(.system(size: 14))
-                        .foregroundStyle(secondaryText)
-                    Spacer()
-                    Toggle("启用遥控器", isOn: Binding(
-                        get: { controller.enabled },
-                        set: { controller.setEnabled($0) }
-                    ))
-                    .toggleStyle(.switch)
-                    .labelsHidden()
-                    .controlSize(.small)
-                    .tint(.blue)
-                }
-                .padding(.vertical, 10)
                 separator.frame(height: 1)
                 HStack {
                     Button("退出") { NSApp.terminate(nil) }
