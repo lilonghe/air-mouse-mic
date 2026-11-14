@@ -71,7 +71,7 @@ open build/air-mouse-mic.app
 3. 点击 amm 的菜单栏图标，打开面板**右上角的小开关**，等待显示 **已连接**。
 4. 按下遥控器语音键，调用语音输入。
 
-在面板右下角进入 **设置**，可调整语音模式与触发快捷键。
+语音模式、触发快捷键与日志导出直接位于系统菜单中，无需切换设置页。移到 **语音模式** 打开侧边选项；移到 **触发快捷键** 打开侧边菜单后按下新的组合键，按 `Esc` 取消录制。
 
 ### 选择操作方式
 
@@ -107,7 +107,7 @@ amm 会在快捷键保持超过 60 秒时自动释放。短按切换期间，组
 <details>
 <summary><strong>如何提交问题反馈？</strong></summary>
 
-在 **设置 → 导出日志…** 保存运行日志，并通过 [GitHub Issues](https://github.com/lilonghe/air-mouse-mic/issues) 说明 macOS 版本、遥控器型号、触发步骤与实际现象。分享前请检查日志内容。
+点击菜单面板中的 **导出日志…** 保存运行日志，并通过 [GitHub Issues](https://github.com/lilonghe/air-mouse-mic/issues) 说明 macOS 版本、遥控器型号、触发步骤与实际现象。分享前请检查日志内容。
 
 日志保存在本机 `~/Library/Logs/amm/amm.log`。
 

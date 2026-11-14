@@ -3,11 +3,12 @@ import ApplicationServices
 import Combine
 import SwiftUI
 
-/// 菜单栏图标与弹出面板
-final class AppDelegate: NSObject, NSApplicationDelegate {
+/// 菜单栏图标与系统下拉菜单。
+final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let controller = RemoteController()
     private var statusItem: NSStatusItem?
-    private var popover: NSPopover?
+    private lazy var settings = SettingsView(controller: controller)
+    private let voiceItem = NSMenuItem(title: "语音状态：空闲", action: nil, keyEquivalent: "")
     private var cancellables = Set<AnyCancellable>()
     private var connectionAnimation: Timer?
     private var connectionFrame = 0
@@ -15,7 +16,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         log("air-mouse-mic (amm) 启动")
         requestAccessibilityIfNeeded()
-        setupPopover()
         setupStatusItem()
         bindIconUpdates()
         updateIcon()
@@ -34,28 +34,42 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         log("等待辅助功能授权：系统设置 → 隐私与安全性 → 辅助功能")
     }
 
-    private func setupPopover() {
-        let popover = NSPopover()
-        popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: PanelView(controller: controller))
-        self.popover = popover
-    }
-
+    /// 使用系统菜单负责背景、圆角、选中反馈与侧边子菜单。
     private func setupStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        item.button?.target = self
-        item.button?.action = #selector(togglePopover)
+        let menu = NSMenu()
+        menu.autoenablesItems = false
+        menu.delegate = self
+        menu.minimumWidth = 284
+        let header = NSMenuItem()
+        let headerView = NSHostingView(rootView: PanelView(controller: controller))
+        headerView.frame = NSRect(x: 0, y: 0, width: 284, height: 34)
+        header.view = headerView
+        menu.addItem(header)
+        menu.addItem(.separator())
+        voiceItem.isEnabled = false
+        menu.addItem(voiceItem)
+        settings.addItems(to: menu)
+        menu.addItem(.separator())
+        let quit = NSMenuItem(title: "退出", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "")
+        quit.target = NSApp
+        menu.addItem(quit)
+        item.menu = menu
         statusItem = item
     }
 
-    @objc private func togglePopover() {
-        guard let button = statusItem?.button, let popover else { return }
-        if popover.isShown {
-            popover.performClose(nil)
-            return
-        }
-        NSApp.activate(ignoringOtherApps: true)
-        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+    /// 每次打开时读取最新状态，不重建正在跟踪的菜单。
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        guard menu === statusItem?.menu else { return }
+        settings.refresh()
+        voiceItem.title = "语音状态：\(controller.speaking ? "说话中" : "空闲")"
+    }
+
+    /// AppKit 从主菜单查询组合键时，交由当前打开的快捷键子菜单处理。
+    func menu(_ menu: NSMenu, hasKeyEquivalentFor event: NSEvent,
+              target: AutoreleasingUnsafeMutablePointer<AnyObject?>,
+              action: UnsafeMutablePointer<Selector?>) -> Bool {
+        settings.menu(menu, hasKeyEquivalentFor: event, target: target, action: action)
     }
 
     /// 连接、说话、开关状态变化时刷新图标
@@ -77,6 +91,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// 连接中播放居中三点动效，其余状态继续使用静态系统图标。
     private func updateIcon() {
+        voiceItem.title = "语音状态：\(controller.speaking ? "说话中" : "空闲")"
         let connecting = controller.enabled && controller.connection == .connecting && !controller.speaking
         updateConnectionAnimation(connecting: connecting)
         let symbol: String
